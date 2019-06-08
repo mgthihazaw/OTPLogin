@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
 use App\Mail\OTPMail;
 use Mail;
+use App\Notifications\OTPNotification;
 
 class User extends Authenticatable
 {
@@ -52,7 +53,13 @@ class User extends Authenticatable
     }
     public function sendOTP($via){
         if($via=='via_sms'){
-           
+            // dd($this->cacheOTP());
+            $nexmo = app('Nexmo\Client');
+            $nexmo->message()->send([
+                'to'   => '959692586095',
+                'from' => "NEXMO",
+                'text' => $this->cacheOTP()
+            ]);
         }
         else{
             Mail::to('thihazawww742@gmail.com')->send(new OTPMail($this->cacheOTP()));

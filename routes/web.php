@@ -1,5 +1,5 @@
 <?php
-
+use Nexmo\Laravel\Facade\Nexmo;
 
 
 
